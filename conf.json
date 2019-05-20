@@ -1,0 +1,34 @@
+{
+    "DIFFICULTY_SCORE":{
+        "HighLevelOT": {
+            "NOTE": "Datas inside [] means age. Each element means young , midle , old age. The lower score is , the happpier nurse is",
+            "HRequirement": {
+                "No1": [100, 100, 100],
+                "No2": [2, 4, 5],
+                "No3": [1, 3, 5]
+            },  
+            "LRequirement": {
+                "No1": [3, 3, 3],
+                "No2": [3, 3, 3],
+                "No3": [3, 3, 3]
+            }  
+        },
+        "LowLevelOT": {
+            "HRequirement": {
+                "No1": [3, 3, 3],
+                "No2": [3, 3, 3],
+                "No3": [4, 3, 2]
+            },  
+            "LRequirement": {
+                "No1": [3, 3, 3],
+                "No2": [3, 3, 3],
+                "No3": [3, 3, 3]
+            }
+        }  
+    },
+    "TIME_SCORE":{
+        "note": "Datas inside [] means that if a nurse has child. First means has, second doesn't. ",
+        "Morning": [1, 3],
+        "Afternoon": [5, 3]
+    }
+}

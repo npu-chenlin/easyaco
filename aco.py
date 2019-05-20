@@ -1,37 +1,32 @@
 import numpy as np
-import csv
+import csv, json
+
+
+class conf():
+    def __init__(self, path):
+        with open(path, "r") as f:
+            self.conf = json.load(f)
 
 
 class nurse():
-    DIFFICULTY_SCORE = {
-        1: {
-            0: {
-                1: [100, 100, 100],
-                2: [2, 4, 5],
-                3: [1, 3, 5]
-            },  # hardwork
-            1: {
-                1: [3, 3, 3],
-                2: [3, 3, 3],
-                3: [3, 3, 3]
-            }  # easywork
-        },  # Hot
-        2: {
-            0: {
-                1: [3, 3, 3],
-                2: [3, 3, 3],
-                3: [4, 3, 2]
-            },  # hard
-            1: {
-                1: [3, 3, 3],
-                2: [3, 3, 3],
-                3: [3, 3, 3]
-            }  # easywork
-        }  # Lot
-    }
-    TIME_SCORE = {
-        0: [3, 3],
-        1: [1, 5]
+    mapTable = {
+        "OTLevel": {
+            1: "HighLevelOT",
+            2: "LowLevelOT"
+        },
+        "NurseLevel": {
+            1: "No1",
+            2: "No2",
+            3: "No3"
+        },
+        "JobType":{
+            0:"HRequirement",
+            1:"LRequirement"
+        },
+        "WorkTime":{
+            0:"Morning",
+            1:"Afternoon"
+        }
     }
 
     def __init__(self, hasChild, age, level, id):
@@ -52,9 +47,8 @@ class nurse():
         else:
             agePeriod = 2
 
-        return nurse.DIFFICULTY_SCORE[operatingTheatre.level][operatingTheatre.requirement][self.level][agePeriod] + \
-               nurse.TIME_SCORE[self.hasChild][operatingTheatre.time]
-
+        return conf.conf["DIFFICULTY_SCORE"][nurse.mapTable["OTLevel"][operatingTheatre.level]][nurse.mapTable["JobType"][operatingTheatre.requirement]][nurse.mapTable["NurseLevel"][self.level]][agePeriod] + \
+               conf.conf["TIME_SCORE"][nurse.mapTable["WorkTime"][operatingTheatre.time]][self.hasChild]
 
 class operatingTheatre():
     def __init__(self, level, time, requirement, id):
@@ -170,6 +164,8 @@ def acoSearch(iteratorNum, antNum):
 
 
 if __name__ == "__main__":
+    confPath = "./conf.json"
+    conf = conf(confPath)
     nurses = []
     operatingTheatres = []
 
@@ -216,7 +212,7 @@ if __name__ == "__main__":
         pathM[i][m] = 1
 
     bestresults = np.array([[min(i) for i in resultData]]) / nurseNum
-    meanresults = np.array([[sum(i)/len(i) for i in resultData]]) / nurseNum
+    meanresults = np.array([[sum(i) / len(i) for i in resultData]]) / nurseNum
     # print(paintData)
     # print(results)
     # print(results)

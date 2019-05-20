@@ -1,2 +1,3 @@
-.ipynb
+*.ipy*
 .idea
+
