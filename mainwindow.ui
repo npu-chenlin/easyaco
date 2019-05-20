@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>MainWindow</class>
- <widget class="QMainWindow" name="MainWindow">
+ <class>FinalScore</class>
+ <widget class="QMainWindow" name="FinalScore">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -14,17 +14,98 @@
    <string>MainWindow</string>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <widget class="QPushButton" name="pushButton">
+   <widget class="QLabel" name="AntNumLable">
     <property name="geometry">
      <rect>
-      <x>590</x>
-      <y>160</y>
-      <width>80</width>
-      <height>26</height>
+      <x>200</x>
+      <y>120</y>
+      <width>63</width>
+      <height>22</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Iteration</string>
+    </property>
+   </widget>
+   <widget class="QSpinBox" name="IterationBox">
+    <property name="geometry">
+     <rect>
+      <x>320</x>
+      <y>120</y>
+      <width>47</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="maximum">
+     <number>100000</number>
+    </property>
+    <property name="value">
+     <number>100</number>
+    </property>
+   </widget>
+   <widget class="QLabel" name="IterationLable">
+    <property name="geometry">
+     <rect>
+      <x>190</x>
+      <y>180</y>
+      <width>63</width>
+      <height>22</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>AntNum</string>
+    </property>
+   </widget>
+   <widget class="QSpinBox" name="AntNumBox">
+    <property name="geometry">
+     <rect>
+      <x>310</x>
+      <y>180</y>
+      <width>47</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="maximum">
+     <number>100000</number>
+    </property>
+    <property name="value">
+     <number>100</number>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="RunButton">
+    <property name="geometry">
+     <rect>
+      <x>470</x>
+      <y>180</y>
+      <width>87</width>
+      <height>31</height>
      </rect>
     </property>
     <property name="text">
      <string>运行</string>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="lineEdit">
+    <property name="geometry">
+     <rect>
+      <x>310</x>
+      <y>270</y>
+      <width>113</width>
+      <height>30</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QLabel" name="IterationLable_2">
+    <property name="geometry">
+     <rect>
+      <x>192</x>
+      <y>270</y>
+      <width>81</width>
+      <height>22</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>FinalScore</string>
     </property>
    </widget>
   </widget>
@@ -34,29 +115,11 @@
      <x>0</x>
      <y>0</y>
      <width>800</width>
-     <height>23</height>
+     <height>27</height>
     </rect>
    </property>
-   <widget class="QMenu" name="menu">
-    <property name="title">
-     <string>选项</string>
-    </property>
-    <addaction name="action"/>
-    <addaction name="action_2"/>
-   </widget>
-   <addaction name="menu"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
-  <action name="action">
-   <property name="text">
-    <string>运行</string>
-   </property>
-  </action>
-  <action name="action_2">
-   <property name="text">
-    <string>保存结果</string>
-   </property>
-  </action>
  </widget>
  <resources/>
  <connections/>
