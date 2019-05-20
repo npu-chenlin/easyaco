@@ -1,6 +1,5 @@
 import numpy as np
-import random
-import sys, csv
+import csv
 
 
 class nurse():
@@ -153,6 +152,7 @@ def cal_scores(pathmatrix_all):
 
 
 def acoSearch(iteratorNum, antNum):
+    lastBestPathMatrix = []
     for i in range(iteratorNum):
         print(i)
         pathmatrix_allant = []
@@ -161,9 +161,12 @@ def acoSearch(iteratorNum, antNum):
             pathmatrix_oneant = np.zeros((OTNum, nurseNum))
             assignNurses(pheromoneMatrix, pathmatrix_oneant, j)
             pathmatrix_allant.append(pathmatrix_oneant)
+        if len(lastBestPathMatrix) != 0:
+            pathmatrix_allant.append(lastBestPathMatrix)
         result = cal_scores(pathmatrix_allant)
         resultData.append(result)
-        updatePheromoneMatrix(pheromoneMatrix, pathmatrix_allant[np.argmin(result)])
+        lastBestPathMatrix = pathmatrix_allant[np.argmin(result)]
+        updatePheromoneMatrix(pheromoneMatrix, lastBestPathMatrix)
 
 
 if __name__ == "__main__":
@@ -213,8 +216,7 @@ if __name__ == "__main__":
         pathM[i][m] = 1
 
     bestresults = np.array([[min(i) for i in resultData]]) / nurseNum
-    resultData = np.array(resultData).transpose() / nurseNum
-    meanresults = [resultData.sum(0) / antNum]
+    meanresults = np.array([[sum(i)/len(i) for i in resultData]]) / nurseNum
     # print(paintData)
     # print(results)
     # print(results)
