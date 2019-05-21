@@ -2,6 +2,7 @@ import numpy as np
 import csv, json
 import matplotlib.pyplot as plt
 
+
 class nurse():
     mapTable = {
         "OTLevel": {
@@ -58,8 +59,9 @@ class operatingTheatre():
         return "level:%d\ttime%d" \
                % (self.level, self.time)
 
+
 class aco():
-    def __init__(self, path):
+    def __init__(self, path,iteration,antNum,decayRate,IncreaseNum):
         print("Initialize ACO...\nReading conf from %s" % path)
         with open(path, "r") as f:
             self.conf = json.load(f)
@@ -69,12 +71,11 @@ class aco():
         self.resultData = []
         self.critivalPointMatrix = []
 
-        self.iteratorNum = self.conf["Iteration"]
-        self.antNum = self.conf["AntNum"]
-        self.decayRate = self.conf["DecayRate"]
-        self.inceaseRate = self.conf["IncreaseNum"]
-        print("Iteration:\t%d AntNum:\t%d" % (self.iteratorNum, self.antNum))
-        print("DecayRate:\t%g IncreaseNum:\t%g" % (self.decayRate, self.inceaseRate))
+        self.iteratorNum = iteration
+        self.antNum = antNum
+        self.decayRate = decayRate
+        self.inceaseRate = IncreaseNum
+        self.rate = 0
         # read info into nurses , operatingTheatres
         with open("info.txt", "r") as f:
             while True:
@@ -98,15 +99,11 @@ class aco():
         self.OTNum = self.HOT + self.LOT
         self.pheromoneMatrix = np.ones((self.OTNum, self.nurseNum))
         self.lossMatrix = self.getlossMatrix(self.nurses, self.operatingTheatres)
-        print("\nNurse\nNo1:\t%d\nNo2:\t%d\nNo3:\t%d \tTotal:\t%d" % (
-            self.HnurseNum, self.MnurseNum, self.LnurseNum, self.nurseNum))
-        print("\nOperatingTheatre\nHighOT\t%d\nLowOT\t%d \tTotal:\t%d" % (self.HOT, self.LOT, self.OTNum))
+
 
     def acoSearch(self):
         lastBestPathMatrix = []
         for i in range(self.iteratorNum):
-            rate=int(float(i+1)/self.iteratorNum*100)
-            print("[" + ">" * rate + "]%d%%\r"%rate,end='')
             pathmatrix_allant = []
             self.updatecritivalPointMatrix()
             for j in range(self.antNum):
@@ -119,14 +116,19 @@ class aco():
             self.resultData.append(result)
             lastBestPathMatrix = pathmatrix_allant[np.argmin(result)]
             self.updatePheromoneMatrix(lastBestPathMatrix)
-        print("\n")
+            self.rate = int(float(i + 1) / self.iteratorNum * 100)
 
     def run(self):
+        self.rate=0
+        self.resultData = []
+        self.critivalPointMatrix = []
+        self.pheromoneMatrix = np.ones((self.OTNum, self.nurseNum))
+
         self.acoSearch()
         print("Mission Complete!")
         self.bestScore = np.array([[min(i) for i in self.resultData]]) / self.nurseNum
         self.meanScore = np.array([[sum(i) / len(i) for i in self.resultData]]) / self.nurseNum
-        print("Final Score:\t%g"%self.bestScore[0][-1])
+        print("Final Score:\t%g" % self.bestScore[0][-1])
 
     # output is a arrary containing score of each pat
     def cal_scores(self, pathmatrix_all):
@@ -210,7 +212,7 @@ class aco():
         for i in range(self.OTNum):
             m = self.pheromoneDistribute(pathM, i)
             pathM[i][m] = 1
-            r.append([self.operatingTheatres[i].id,self.nurses[m].id])
+            r.append([self.operatingTheatres[i].id, self.nurses[m].id])
         with open("output.csv", "w", newline='') as f:
             excel_writer = csv.writer(f)
             excel_writer.writerows(self.bestScore)
@@ -218,17 +220,23 @@ class aco():
             excel_writer.writerows(r)
             # excel_writer.writerows(pathM)
             # print(pathM)
+
+    def drawImg(self,path="./src/results.png"):
+        plt.cla()
+        plt.subplot(111)
+        plt.xlabel("Iteration")
+        plt.ylabel("Score")
+        for index, value in enumerate(self.resultData):
+            plt.scatter(np.ones_like(value) * index, np.array(value) / self.nurseNum, s=10, c='r', marker='.')
+        plt.plot(self.bestScore[0], label="bestScore")
+        plt.plot(self.meanScore[0], label="meanScore")
+        plt.legend(["bestScore", "meanScore"])
+        plt.savefig(path)
+
+
 if __name__ == "__main__":
     confPath = "./conf.json"
     conf = aco(confPath)
     conf.run()
     conf.saveData()
-    plt.xlabel("Iteration")
-    plt.ylabel("Score")
-    for index,value in enumerate(conf.resultData):
-        plt.scatter(np.ones_like(value)*index,np.array(value)/conf.nurseNum,s=10,c='r',marker='.')
-    plt.plot(conf.bestScore[0],label="bestScore")
-    plt.plot(conf.meanScore[0],label="meanScore")
-    plt.legend(["bestScore","meanScore"])
-    plt.savefig("results.png")
-    plt.show()
+    conf.drawImg()

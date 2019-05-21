@@ -1,8 +1,4 @@
 {
-    "Iteration" : 100,
-    "AntNum":100,
-    "DecayRate":0.7,
-    "IncreaseNum":0.1,
     "DIFFICULTY_SCORE":{
         "HighLevelOT": {
             "NOTE": "Datas inside [] means age. Each element means young , midle , old age. The lower score is , the happpier nurse is",
