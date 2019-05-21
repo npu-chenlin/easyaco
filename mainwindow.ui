@@ -16,6 +16,10 @@
   <property name="windowTitle">
    <string>ACO</string>
   </property>
+  <property name="windowIcon">
+   <iconset>
+    <normaloff>src/hospital.png</normaloff>src/hospital.png</iconset>
+  </property>
   <widget class="QWidget" name="centralwidget">
    <property name="acceptDrops">
     <bool>false</bool>

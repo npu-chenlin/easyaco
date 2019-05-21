@@ -227,9 +227,9 @@ class aco():
         plt.xlabel("Iteration")
         plt.ylabel("Score")
         for index, value in enumerate(self.resultData):
-            plt.scatter(np.ones_like(value) * index, np.array(value) / self.nurseNum, s=10, c='r', marker='.')
-        plt.plot(self.bestScore[0], label="bestScore")
-        plt.plot(self.meanScore[0], label="meanScore")
+            plt.scatter(np.ones_like(value) * index, np.array(value) / self.nurseNum, s=10, c="#b1d1fc", marker='.')
+        plt.plot(self.bestScore[0], label="bestScore",color="#ef4026")
+        plt.plot(self.meanScore[0], label="meanScore",color="#840000")
         plt.legend(["bestScore", "meanScore"])
         plt.savefig(path)
 
