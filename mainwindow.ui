@@ -1,112 +1,193 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>FinalScore</class>
- <widget class="QMainWindow" name="FinalScore">
+ <class>Frame</class>
+ <widget class="QMainWindow" name="Frame">
   <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>800</width>
-    <height>600</height>
+    <width>784</width>
+    <height>546</height>
    </rect>
   </property>
   <property name="windowTitle">
-   <string>MainWindow</string>
+   <string>ACO</string>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <widget class="QLabel" name="AntNumLable">
+   <widget class="QWidget" name="verticalLayoutWidget">
     <property name="geometry">
      <rect>
-      <x>200</x>
-      <y>120</y>
-      <width>63</width>
-      <height>22</height>
+      <x>550</x>
+      <y>20</y>
+      <width>160</width>
+      <height>281</height>
      </rect>
     </property>
-    <property name="text">
-     <string>Iteration</string>
-    </property>
+    <layout class="QVBoxLayout" name="verticalLayout">
+     <item>
+      <widget class="QPushButton" name="RunButton">
+       <property name="text">
+        <string>运行</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="StopButton">
+       <property name="text">
+        <string>停止</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="SaveDataButton">
+       <property name="text">
+        <string>保存数据</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="SaveImageButton">
+       <property name="text">
+        <string>保存图片</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="QuitButton">
+       <property name="text">
+        <string>退出</string>
+       </property>
+       <property name="flat">
+        <bool>false</bool>
+       </property>
+      </widget>
+     </item>
+    </layout>
    </widget>
-   <widget class="QSpinBox" name="IterationBox">
+   <widget class="QWidget" name="gridLayoutWidget">
     <property name="geometry">
      <rect>
-      <x>320</x>
-      <y>120</y>
-      <width>47</width>
-      <height>31</height>
+      <x>550</x>
+      <y>300</y>
+      <width>161</width>
+      <height>171</height>
      </rect>
     </property>
-    <property name="maximum">
-     <number>100000</number>
-    </property>
-    <property name="value">
-     <number>100</number>
-    </property>
+    <layout class="QGridLayout" name="gridLayout">
+     <item row="5" column="2">
+      <widget class="QSpinBox" name="DecayRateBox">
+       <property name="maximum">
+        <number>100000</number>
+       </property>
+       <property name="value">
+        <number>100</number>
+       </property>
+      </widget>
+     </item>
+     <item row="2" column="0">
+      <widget class="QLabel" name="AntNumLabel">
+       <property name="text">
+        <string>Iteration</string>
+       </property>
+      </widget>
+     </item>
+     <item row="4" column="0">
+      <widget class="QLabel" name="IterationLable">
+       <property name="text">
+        <string>AntNum</string>
+       </property>
+      </widget>
+     </item>
+     <item row="7" column="2">
+      <widget class="QLineEdit" name="FinalScoreBox"/>
+     </item>
+     <item row="2" column="2">
+      <widget class="QSpinBox" name="AntNumBox">
+       <property name="maximum">
+        <number>100000</number>
+       </property>
+       <property name="value">
+        <number>100</number>
+       </property>
+      </widget>
+     </item>
+     <item row="4" column="2">
+      <widget class="QSpinBox" name="IterationBox">
+       <property name="maximum">
+        <number>100000</number>
+       </property>
+       <property name="value">
+        <number>100</number>
+       </property>
+      </widget>
+     </item>
+     <item row="6" column="0">
+      <widget class="QLabel" name="IncreaseLabel">
+       <property name="text">
+        <string>Increase</string>
+       </property>
+      </widget>
+     </item>
+     <item row="5" column="0">
+      <widget class="QLabel" name="DecayRateLabel">
+       <property name="text">
+        <string>DecayRate</string>
+       </property>
+      </widget>
+     </item>
+     <item row="7" column="0">
+      <widget class="QLabel" name="FinalScoreLabel">
+       <property name="text">
+        <string>FinalScore</string>
+       </property>
+      </widget>
+     </item>
+     <item row="6" column="2">
+      <widget class="QDoubleSpinBox" name="doubleSpinBox">
+       <property name="singleStep">
+        <double>0.050000000000000</double>
+       </property>
+      </widget>
+     </item>
+    </layout>
    </widget>
-   <widget class="QLabel" name="IterationLable">
+   <widget class="QWidget" name="verticalLayoutWidget_2">
     <property name="geometry">
      <rect>
-      <x>190</x>
-      <y>180</y>
-      <width>63</width>
-      <height>22</height>
+      <x>60</x>
+      <y>20</y>
+      <width>481</width>
+      <height>451</height>
      </rect>
     </property>
-    <property name="text">
-     <string>AntNum</string>
-    </property>
-   </widget>
-   <widget class="QSpinBox" name="AntNumBox">
-    <property name="geometry">
-     <rect>
-      <x>310</x>
-      <y>180</y>
-      <width>47</width>
-      <height>31</height>
-     </rect>
-    </property>
-    <property name="maximum">
-     <number>100000</number>
-    </property>
-    <property name="value">
-     <number>100</number>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="RunButton">
-    <property name="geometry">
-     <rect>
-      <x>470</x>
-      <y>180</y>
-      <width>87</width>
-      <height>31</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>运行</string>
-    </property>
-   </widget>
-   <widget class="QLineEdit" name="lineEdit">
-    <property name="geometry">
-     <rect>
-      <x>310</x>
-      <y>270</y>
-      <width>113</width>
-      <height>30</height>
-     </rect>
-    </property>
-   </widget>
-   <widget class="QLabel" name="IterationLable_2">
-    <property name="geometry">
-     <rect>
-      <x>192</x>
-      <y>270</y>
-      <width>81</width>
-      <height>22</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>FinalScore</string>
-    </property>
+    <layout class="QVBoxLayout" name="verticalLayout_2">
+     <item>
+      <widget class="QTextEdit" name="Info"/>
+     </item>
+     <item>
+      <widget class="QLabel" name="ImgBox">
+       <property name="text">
+        <string/>
+       </property>
+       <property name="pixmap">
+        <pixmap>src/results.png</pixmap>
+       </property>
+       <property name="scaledContents">
+        <bool>true</bool>
+       </property>
+       <property name="wordWrap">
+        <bool>false</bool>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QProgressBar" name="progressBar">
+       <property name="value">
+        <number>0</number>
+       </property>
+      </widget>
+     </item>
+    </layout>
    </widget>
   </widget>
   <widget class="QMenuBar" name="menubar">
@@ -114,12 +195,24 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>800</width>
-     <height>27</height>
+     <width>784</width>
+     <height>23</height>
     </rect>
    </property>
+   <widget class="QMenu" name="menu">
+    <property name="title">
+     <string>文件</string>
+    </property>
+    <addaction name="action"/>
+   </widget>
+   <addaction name="menu"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
+  <action name="action">
+   <property name="text">
+    <string>导入配置</string>
+   </property>
+  </action>
  </widget>
  <resources/>
  <connections/>
