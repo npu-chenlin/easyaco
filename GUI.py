@@ -5,11 +5,7 @@ import sys, threading
 import matplotlib
 
 matplotlib.use('Qt5Agg')
-from PyQt5 import QtCore, QtWidgets, QtGui
-import numpy as np
-from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
-from matplotlib.figure import Figure
-from matplotlib.animation import FuncAnimation
+from PyQt5 import QtGui
 
 from PyQt5.QtWidgets import *
 from PyQt5 import QtCore
