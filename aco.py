@@ -61,7 +61,7 @@ class operatingTheatre():
 
 
 class aco():
-    def __init__(self, path,iteration,antNum,decayRate,IncreaseNum):
+    def __init__(self, path, iteration, antNum, decayRate, IncreaseNum):
         print("Initialize ACO...\nReading conf from %s" % path)
         with open(path, "r") as f:
             self.conf = json.load(f)
@@ -100,7 +100,6 @@ class aco():
         self.pheromoneMatrix = np.ones((self.OTNum, self.nurseNum))
         self.lossMatrix = self.getlossMatrix(self.nurses, self.operatingTheatres)
 
-
     def acoSearch(self):
         lastBestPathMatrix = []
         for i in range(self.iteratorNum):
@@ -119,7 +118,7 @@ class aco():
             self.rate = int(float(i + 1) / self.iteratorNum * 100)
 
     def run(self):
-        self.rate=0
+        self.rate = 0
         self.resultData = []
         self.critivalPointMatrix = []
         self.pheromoneMatrix = np.ones((self.OTNum, self.nurseNum))
@@ -221,16 +220,20 @@ class aco():
             # excel_writer.writerows(pathM)
             # print(pathM)
 
-    def drawImg(self,path="./src/results.png"):
+    def drawImg(self, isRatioButtonOn, path="./src/results.png"):
         plt.cla()
         plt.subplot(111)
         plt.xlabel("Iteration")
         plt.ylabel("Score")
-        for index, value in enumerate(self.resultData):
-            plt.scatter(np.ones_like(value) * index, np.array(value) / self.nurseNum, s=10, c="#b1d1fc", marker='.')
-        plt.plot(self.bestScore[0], label="bestScore",color="#ef4026")
-        plt.plot(self.meanScore[0], label="meanScore",color="#840000")
-        plt.legend(["bestScore", "meanScore"])
+        legends = np.array(["bestScore", "meanScore", "Scatters"])
+        if isRatioButtonOn[0]:
+            plt.plot(self.bestScore[0], label="bestScore", color="#ef4026")
+        if isRatioButtonOn[1]:
+            plt.plot(self.meanScore[0], label="meanScore", color="#840000")
+        if isRatioButtonOn[2]:
+            for index, value in enumerate(self.resultData):
+                plt.scatter(np.ones_like(value) * index, np.array(value) / self.nurseNum, s=10, c="#b1d1fc", marker='.')
+        plt.legend(legends[np.array(isRatioButtonOn)==True])
         plt.savefig(path)
 
 
