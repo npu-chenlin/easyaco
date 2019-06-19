@@ -90,9 +90,9 @@ class aco():
 
         self.nurses.sort(key=lambda nurse: nurse.level, reverse=True)
         self.operatingTheatres.sort(key=lambda operatingTheatre: operatingTheatre.level)
-        self.HnurseNum = len([i for i in filter(lambda x: x.level == 1, self.nurses)])
+        self.HnurseNum = len([i for i in filter(lambda x: x.level == 3, self.nurses)])
         self.MnurseNum = len([i for i in filter(lambda x: x.level == 2, self.nurses)])
-        self.LnurseNum = len([i for i in filter(lambda x: x.level == 3, self.nurses)])
+        self.LnurseNum = len([i for i in filter(lambda x: x.level == 1, self.nurses)])
         self.nurseNum = self.HnurseNum + self.MnurseNum + self.LnurseNum
         self.HOT = len([i for i in filter(lambda x: x.level == 1, self.operatingTheatres)])
         self.LOT = len([i for i in filter(lambda x: x.level == 2, self.operatingTheatres)])
@@ -145,50 +145,56 @@ class aco():
 
     # assign one nurse for OT
     def assignNurses(self, pathmatrix, antIndex):
-        for OTIndex in range(self.OTNum):
+        for i in filter(lambda x: x.requirement == 0, self.operatingTheatres):
+            OTIndex = self.operatingTheatres.index(i)
             if (antIndex < self.critivalPointMatrix[-self.OTNum + OTIndex]):
-                m = self.pheromoneDistribute(pathmatrix, OTIndex)
+                m = self.h_pheromoneDistribute(pathmatrix, OTIndex)
             else:
-                m = self.randomDistribute(pathmatrix, OTIndex)
+                m = self.h_randomDistribute(pathmatrix)
+            pathmatrix[OTIndex][m] = 1
+        for i in filter(lambda x: x.requirement == 1, self.operatingTheatres):
+            OTIndex = self.operatingTheatres.index(i)
+            if (antIndex < self.critivalPointMatrix[-self.OTNum + OTIndex]):
+                m = self.l_pheromoneDistribute(pathmatrix, OTIndex)
+            else:
+                m = self.l_randomDistribute(pathmatrix)
             pathmatrix[OTIndex][m] = 1
 
-    def randomDistribute(self, pathmatrix, otindex):
-        if (self.operatingTheatres[otindex].level == 1) and (self.operatingTheatres[otindex].requirement == 0):
-            ret = np.arange(self.HnurseNum + self.MnurseNum)
-            np.random.shuffle(ret)
-            ret = list(ret)
-            n = ret.pop()
-            while pathmatrix.sum(0)[n] >= 1:
-                n = ret.pop()
-            return n
-        else:
-            ret = np.arange(self.nurseNum)
-            np.random.shuffle(ret)
-            ret = list(ret)
-            n = ret.pop()
-            while pathmatrix.sum(0)[n] >= 1:
-                n = ret.pop()
-        return n
+    def h_pheromoneDistribute(self,pathmatrix, OTIndex):
+            ret = self.pheromoneMatrix[OTIndex][:self.HnurseNum + self.MnurseNum].argsort()
+            th = 1
+            while pathmatrix.sum(0)[ret[-th]] >= 1:
+                th += 1
+            return ret[-th]
 
-    def pheromoneDistribute(self, pathmatrix, otindex):
-        if (self.operatingTheatres[otindex].level == 1) and (self.operatingTheatres[otindex].requirement == 0):
-            ret = self.pheromoneMatrix[otindex][:self.HnurseNum + self.MnurseNum].argsort()
+    def h_randomDistribute(self,pathmatrix):
+        ret = np.arange(self.HnurseNum + self.MnurseNum)
+        np.random.shuffle(ret)
+        ret = list(ret)
+        n = ret.pop()
+        while pathmatrix.sum(0)[n] >= 1:
+            n = ret.pop()
+        return n
+    def l_pheromoneDistribute(self,pathmatrix, OTIndex):
+            ret = self.pheromoneMatrix[OTIndex].argsort()
             th = 1
             while pathmatrix.sum(0)[ret[-th]] >= 1:
                 th += 1
             return ret[-th]
-        else:
-            ret = self.pheromoneMatrix[otindex].argsort()
-            th = 1
-            while pathmatrix.sum(0)[ret[-th]] >= 1:
-                th += 1
-            return ret[-th]
+    def l_randomDistribute(self,pathmatrix):
+        ret = np.arange(self.nurseNum)
+        np.random.shuffle(ret)
+        ret = list(ret)
+        n = ret.pop()
+        while pathmatrix.sum(0)[n] >= 1:
+            n = ret.pop()
+        return n
 
     def updatePheromoneMatrix(self, pathmatrix):
         self.pheromoneMatrix *= self.decayRate
         self.pheromoneMatrix[pathmatrix == 1] += self.inceaseRate
 
-    def updatecritivalPointMatrix(self, ):
+    def updatecritivalPointMatrix(self):
         for i in range(self.HOT):
             is_allsame = (len(set(self.pheromoneMatrix[i])) == 1)
             if is_allsame:
@@ -207,11 +213,15 @@ class aco():
 
     def saveData(self):
         pathM = np.zeros_like(self.pheromoneMatrix)
-        r = []
+        r = [["OTId", "OTRequirement", "OTLevel", "NurseId", "NurseAge", "NurseLevel", "Score"]]
+        self.assignNurses(pathM, -1)
         for i in range(self.OTNum):
-            m = self.pheromoneDistribute(pathM, i)
-            pathM[i][m] = 1
-            r.append([self.operatingTheatres[i].id, self.nurses[m].id])
+            for m in range(self.nurseNum):
+                if(pathM[i][m] == 1):
+                    r.append([self.operatingTheatres[i].id, self.operatingTheatres[i].requirement,
+                              self.operatingTheatres[i].level,self.nurses[m].id, self.nurses[m].age,
+                              self.nurses[m].level, self.lossMatrix[i][m]])
+                    break
         with open("output.csv", "w", newline='') as f:
             excel_writer = csv.writer(f)
             excel_writer.writerows(self.bestScore)

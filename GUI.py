@@ -27,7 +27,7 @@ class ApplicationWindow(QMainWindow, ui.Ui_Frame):
                                  self.AntNumBox.value(),
                                  self.DecayRateBox.value(),
                                  self.IncreaseBox.value())
-        self.Nurseinfo = "Nurse\nNo1:\t%d\nNo2:\t%d\nNo3:\t%d \tTotal:\t%d" % (
+        self.Nurseinfo = "Nurse\nNo3:\t%d\nNo2:\t%d\nNo1:\t%d \tTotal:\t%d" % (
             self.algorithm.HnurseNum, self.algorithm.MnurseNum, self.algorithm.LnurseNum, self.algorithm.nurseNum)
         self.OTinfo = "OperatingTheatre\nHighOT\t%d\nLowOT\t%d \tTotal:\t%d" % (
             self.algorithm.HOT, self.algorithm.LOT, self.algorithm.OTNum)
